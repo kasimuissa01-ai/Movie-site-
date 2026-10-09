@@ -1,0 +1,6 @@
+{
+  "name": "APK Distribution Landing Page",
+  "description": "Modern, premium Play Store-inspired Android APK direct distribution landing page with instant download, screenshot gallery, device specs, and installation guide.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
