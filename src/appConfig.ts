@@ -231,7 +231,11 @@ export const APP_CONFIG: AppConfiguration = {
     },
     {
       question: "Jinsi ya kusakinisha (install) faili ya APK ya MovieRoom?",
-      answer: "Baada ya kupakua kumalizika: 1) Fungua faili ya Movieroom.apk. 2) Simu ikikuuliza ruhusa ya 'Install unknown apps', weka 'Allow from this source'. 3) Bofya 'Install'. 4) Fungua MovieRoom na uanze kufurahia filamu."
+      answer: "Baada ya kupakua kumalizika: 1) Gusa 'OPEN' (Fungua) chini ya kivinjari au kwenye notification ya simu yako. 2) Simu ikikuuliza ruhusa ya 'Install unknown apps', weka 'Allow from this source'. 3) Bofya 'Install'. 4) Fungua MovieRoom na uanze kufurahia filamu."
+    },
+    {
+      question: "Je, inawezekana kisakinishi cha Android (Package Installer) kikaanza chenyewe bila kubofya?",
+      answer: "Kwenye mifumo ya Android na vivinjari (kama Google Chrome), kwa sababu za kiusalama (kuzuia virusi visijisakinishie vyenyewe kisiri), Android inahitaji uguso wako mara moja tu. Mara baada ya upakuaji kumalizika, Chrome inaweka kitufe cha 'OPEN' (Fungua) chini kabisa mwa skrini na kwenye notification. Ukigusa 'OPEN', Android inafungua kisakinishi moja kwa moja bila haja ya kutafuta kwenye folda la My Files!"
     },
     {
       question: "Nifanye nini nikipata hitilafu ya 'App not installed'?",

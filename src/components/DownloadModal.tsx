@@ -10,6 +10,7 @@ import {
   QrCode,
   Loader2,
   Lock,
+  Smartphone,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { APP_CONFIG } from '../appConfig';
@@ -109,7 +110,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
             </div>
           </div>
 
-          {/* VERIFIED TRUST BADGE (Prominently displayed) */}
+          {/* VERIFIED TRUST BADGE */}
           <div className="mb-4 bg-emerald-50/90 border border-emerald-200/90 rounded-2xl p-3 sm:p-3.5 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs">
               <ShieldCheck className="w-5 h-5" />
@@ -128,7 +129,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
           </div>
 
           {/* REAL-TIME PERCENTAGE PROGRESS CARD */}
-          <div className="bg-slate-900 text-white rounded-2xl p-5 mb-5 shadow-inner">
+          <div className="bg-slate-900 text-white rounded-2xl p-5 mb-4 shadow-inner">
             <div className="flex items-end justify-between mb-2">
               <span className="text-xs font-medium text-slate-300">
                 {isCompleted
@@ -163,32 +164,91 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
             </div>
           </div>
 
-          {/* Quick 3-Step Next Action */}
-          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 mb-5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
-              Hatua za Kufuata Kwenye Simu Yako:
-            </h4>
-            <ol className="space-y-2 text-xs sm:text-sm text-slate-700">
-              <li className="flex items-start gap-2">
-                <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                  1
-                </span>
-                <span>Subiri upakuaji ufike 100%, kisha gusa faili ya <strong>{APP_CONFIG.apkFileName}</strong>.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                  2
-                </span>
-                <span>Simu ikikuuliza, fungua <strong>Settings</strong> na uweke <strong>"Allow from this source"</strong>.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                  3
-                </span>
-                <span>Bofya <strong>Install</strong> kisha fungua {APP_CONFIG.name} uanze kutazama filamu!</span>
-              </li>
-            </ol>
-          </div>
+          {/* INSTANT INSTALL PROMPT WHEN COMPLETED */}
+          {isCompleted ? (
+            <div className="bg-amber-50 border-2 border-amber-300/90 rounded-2xl p-4 mb-5 animate-in zoom-in-95 duration-200">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                  <Smartphone className="w-5 h-5" />
+                </div>
+                <div className="text-xs sm:text-sm text-amber-950 w-full">
+                  <h4 className="font-bold text-amber-900 text-sm mb-1">
+                    Gusa Hapa Kufungua Kisakinishi Moja kwa Moja:
+                  </h4>
+                  <p className="leading-relaxed text-slate-700">
+                    Kwa sababu za kiusalama za Android, mfumo unahitaji <strong>uguso mmoja (1-tap)</strong> ili kuanza kufunga. Chagua njia moja iliyo rahisi kwako:
+                  </p>
+                  
+                  {/* Option A: Chrome bottom popup */}
+                  <div className="mt-2.5 bg-slate-900 text-white rounded-xl p-3 shadow-xs">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 truncate">
+                        <span className="text-emerald-400 text-base">✓</span>
+                        <span className="text-xs text-slate-200 font-mono truncate">
+                          {APP_CONFIG.apkFileName}
+                        </span>
+                      </div>
+                      <span className="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg uppercase tracking-wider animate-pulse shrink-0">
+                        OPEN / FUNGUA
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-1.5">
+                      👆 <strong>Njia ya 1:</strong> Bofya kitufe cha buluu <strong>OPEN</strong> kinachotokea chini kabisa mwa skrini ya Chrome.
+                    </p>
+                  </div>
+
+                  {/* Option B: Android Notification Bar */}
+                  <div className="mt-2 bg-slate-800 text-white rounded-xl p-3 shadow-xs">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">🔔</span>
+                        <span className="text-xs font-medium text-slate-200">
+                          Upakuaji Umekamilika (Download complete)
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                        Tayari
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-1.5">
+                      👇 <strong>Njia ya 2:</strong> Vuta notification bar ya simu yako chini, kisha bofya faili la <strong>{APP_CONFIG.apkFileName}</strong> ili kufungua kisakinishi papo hapo!
+                    </p>
+                  </div>
+                  
+                  <p className="text-[11px] text-amber-900 font-medium mt-2.5">
+                    💡 Ukibofya kimojawapo, Android itafungua mara moja <strong>Package Installer</strong> na kukuuliza <em>"Do you want to install this app?"</em> — bofya <strong>Install</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Quick 3-Step Next Action */
+            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 mb-5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+                Hatua za Kufuata Kwenye Simu Yako:
+              </h4>
+              <ol className="space-y-2 text-xs sm:text-sm text-slate-700">
+                <li className="flex items-start gap-2">
+                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
+                    1
+                  </span>
+                  <span>Subiri upakuaji ufike 100%, kisha bofya <strong>"OPEN"</strong> chini ya skrini ya simu yako.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
+                    2
+                  </span>
+                  <span>Simu ikikuuliza, fungua <strong>Settings</strong> na uweke <strong>"Allow from this source"</strong>.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
+                    3
+                  </span>
+                  <span>Bofya <strong>Install</strong> kisha fungua {APP_CONFIG.name} uanze kutazama filamu!</span>
+                </li>
+              </ol>
+            </div>
+          )}
 
           {/* Action buttons */}
           <div className="space-y-2.5">

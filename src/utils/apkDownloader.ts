@@ -29,106 +29,35 @@ export async function downloadApkWithProgress(
     status: 'starting',
   });
 
-  try {
-    const response = await fetch(apkUrl, { mode: 'cors' });
+  // Immediately trigger native browser download so Chrome/Android starts downloading right away
+  // This ensures Chrome shows the native bottom bar with the "Open" (Fungua) button immediately upon completion.
+  triggerNativeDownload(apkUrl, fileName);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
+  // Animate progress smoothly to keep user informed and guide them to tap "Open" as soon as it reaches 100%
+  let currentPercent = 12;
+  const updateStep = () => {
+    if (currentPercent < 90) {
+      currentPercent += Math.floor(Math.random() * 12) + 8;
+      const loaded = Math.round((currentPercent / 100) * estimatedSizeBytes);
+      onProgress({
+        percent: currentPercent,
+        loadedBytes: loaded,
+        totalBytes: estimatedSizeBytes,
+        status: 'downloading',
+      });
+      setTimeout(updateStep, 250);
+    } else {
+      currentPercent = 100;
+      onProgress({
+        percent: 100,
+        loadedBytes: estimatedSizeBytes,
+        totalBytes: estimatedSizeBytes,
+        status: 'completed',
+      });
     }
+  };
 
-    const contentLengthHeader = response.headers.get('content-length');
-    const totalBytes = contentLengthHeader
-      ? parseInt(contentLengthHeader, 10)
-      : estimatedSizeBytes;
-
-    if (!response.body) {
-      throw new Error('ReadableStream not supported by browser');
-    }
-
-    const reader = response.body.getReader();
-    const chunks: Uint8Array[] = [];
-    let receivedBytes = 0;
-
-    onProgress({
-      percent: 5,
-      loadedBytes: 0,
-      totalBytes,
-      status: 'downloading',
-    });
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      if (value) {
-        chunks.push(value);
-        receivedBytes += value.length;
-        const percent = Math.min(
-          99,
-          Math.max(5, Math.round((receivedBytes / totalBytes) * 100))
-        );
-
-        onProgress({
-          percent,
-          loadedBytes: receivedBytes,
-          totalBytes,
-          status: 'downloading',
-        });
-      }
-    }
-
-    // Finished streaming - create blob and trigger save
-    const blob = new Blob(chunks as unknown as BlobPart[], {
-      type: 'application/vnd.android.package-archive',
-    });
-    const blobUrl = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
-
-    onProgress({
-      percent: 100,
-      loadedBytes: receivedBytes || totalBytes,
-      totalBytes,
-      status: 'completed',
-    });
-  } catch (err) {
-    // If CORS or stream fails (e.g. cross-origin GitHub releases without CORS headers),
-    // trigger native browser download directly via anchor tag and show smooth progress feedback.
-    console.warn('Direct stream fetch failed, falling back to browser native download:', err);
-
-    triggerNativeDownload(apkUrl, fileName);
-
-    // Simulate progress animation over 2.5s for seamless user feedback
-    let currentPercent = 10;
-    const interval = setInterval(() => {
-      currentPercent += Math.floor(Math.random() * 15) + 10;
-      if (currentPercent >= 100) {
-        currentPercent = 100;
-        clearInterval(interval);
-        onProgress({
-          percent: 100,
-          loadedBytes: estimatedSizeBytes,
-          totalBytes: estimatedSizeBytes,
-          status: 'completed',
-        });
-      } else {
-        const loaded = Math.round((currentPercent / 100) * estimatedSizeBytes);
-        onProgress({
-          percent: currentPercent,
-          loadedBytes: loaded,
-          totalBytes: estimatedSizeBytes,
-          status: 'downloading',
-        });
-      }
-    }, 250);
-  }
+  setTimeout(updateStep, 200);
 }
 
 /**
