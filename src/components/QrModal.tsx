@@ -14,7 +14,7 @@ export const QrModal: React.FC<QrModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (!isOpen) return;
 
-    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://apexflow.app';
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://movieroom.app';
     QRCode.toDataURL(currentUrl, {
       width: 240,
       margin: 1,
@@ -47,7 +47,7 @@ export const QrModal: React.FC<QrModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <div className="p-6">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-3">
             <Smartphone className="w-6 h-6" />
           </div>
 

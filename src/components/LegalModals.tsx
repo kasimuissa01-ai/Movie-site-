@@ -21,9 +21,9 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {type === 'privacy' ? (
-              <Shield className="w-5 h-5 text-blue-600" />
+              <Shield className="w-5 h-5 text-red-600" />
             ) : (
-              <FileText className="w-5 h-5 text-blue-600" />
+              <FileText className="w-5 h-5 text-red-600" />
             )}
             <h3 className="text-lg font-bold text-slate-900">
               {type === 'privacy' ? 'Privacy Policy' : 'Terms of Service'}
@@ -57,9 +57,8 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               </p>
               <h4 className="font-bold text-slate-900 text-sm">2. Data Storage & Encryption</h4>
               <p>
-                All your project data, tasks, notes, and preferences are stored locally on your Android device.
-                When you initiate cloud synchronization, your payloads are encrypted using industry-standard
-                AES-256 protocols before being transferred.
+                All your downloaded movies, bookmarks, watch history, and playback preferences are stored locally on your Android device.
+                When you stream content, connections are secured using industry-standard TLS encryption protocols.
               </p>
               <h4 className="font-bold text-slate-900 text-sm">3. Android Permissions</h4>
               <p>

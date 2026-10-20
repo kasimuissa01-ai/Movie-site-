@@ -1,69 +1,59 @@
 import React from 'react';
-import {
-  Zap,
-  ShieldCheck,
-  RefreshCw,
-  Smartphone,
-  BarChart3,
-  CloudOff,
-  Lock,
-  Layers,
-  LucideIcon,
-  Sparkles,
-} from 'lucide-react';
-import { APP_CONFIG, AppFeature } from '../appConfig';
+import { APP_CONFIG } from '../appConfig';
+import { Language, TranslationDictionary } from '../translations';
 
-const iconMap: Record<string, LucideIcon> = {
-  Zap,
-  ShieldCheck,
-  RefreshCw,
-  Smartphone,
-  BarChart3,
-  CloudOff,
-  Lock,
-  Layers,
-};
+interface FeaturesSectionProps {
+  lang: Language;
+  t: TranslationDictionary;
+}
 
-export const FeaturesSection: React.FC = () => {
+export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ lang, t }) => {
   return (
-    <section id="features" className="py-10 sm:py-16 border-b border-slate-200/80 bg-slate-50/50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+    <section id="why-choose" className="py-12 sm:py-20 bg-white border-b border-slate-200 scroll-mt-16 overflow-hidden">
+      <div className="w-full max-w-3xl mx-auto px-6 sm:px-8">
         
-        {/* Header */}
-        <div className="text-center sm:text-left mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-rose-600 mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Vipengele Muhimu</span>
+        {/* Section Heading */}
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 text-center tracking-tight mb-4">
+          {t.whyChoose.title}
+        </h2>
+
+        {/* Section Paragraph - Increased Base Font Size & Line Height for Mobile Readability */}
+        <p className="text-slate-800 text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-loose text-center max-w-2xl mx-auto mb-10 font-normal">
+          {t.whyChoose.desc}
+        </p>
+
+        {/* Center: Smartphone Mockup with Subtle Warm Cinema Halo */}
+        <div className="relative flex items-center justify-center my-10">
+          
+          {/* Subtle Warm Red/Slate Halo */}
+          <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-tr from-red-100/60 via-slate-100 to-rose-100/60 absolute -z-0 opacity-80" />
+
+          {/* Smartphone Frame with MovieRoom Screen */}
+          <div className="relative z-10 w-48 sm:w-56 rounded-[36px] bg-slate-950 p-2.5 shadow-2xl ring-1 ring-slate-800">
+            {/* Phone Screen */}
+            <div className="rounded-[28px] overflow-hidden aspect-[9/18] bg-slate-900 relative">
+              <img
+                src={APP_CONFIG.screenshots[0].src}
+                alt="MovieRoom Interface"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-2 inset-x-0 flex justify-center">
+                <div className="w-16 h-3 rounded-full bg-slate-950/80 backdrop-blur-xs" />
+              </div>
+            </div>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Sifa Kuu za {APP_CONFIG.name}
-          </h2>
-          <p className="text-sm sm:text-base text-slate-500 mt-1 max-w-2xl">
-            Kila kitu unachohitaji kufurahia filamu na tamthilia zilizotafsiriwa kwa Kiswahili popote ulipo bila usumbufu.
-          </p>
         </div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {APP_CONFIG.features.map((feature: AppFeature) => {
-            const Icon = iconMap[feature.iconName] || Zap;
-            return (
-              <div
-                key={feature.id}
-                className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-2xs hover:shadow-md transition-all duration-200 group"
-              >
-                <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-4 transition-colors group-hover:bg-rose-600 group-hover:text-white">
-                  <Icon className="w-5 h-5 stroke-[2]" />
-                </div>
-                <h3 className="text-base font-bold text-slate-900 mb-1.5 group-hover:text-rose-600 transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {feature.description}
-                </p>
+        {/* Polished Bullets List - Balanced, Centered & Fully Responsive on all phones */}
+        <div className="w-full max-w-md mx-auto mt-6">
+          <div className="bg-slate-50/90 rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+            {t.whyChoose.bullets.map((bullet, idx) => (
+              <div key={idx} className="flex items-center gap-3.5 text-slate-800 text-base sm:text-lg font-semibold leading-relaxed">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0 shadow-xs ring-4 ring-red-100" />
+                <span>{bullet}</span>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
       </div>
