@@ -19,15 +19,15 @@ export const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs">
-      <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs w-full overflow-hidden">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         
         {/* Left: Mobile hamburger + Real Brand Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            className="md:hidden p-1.5 sm:p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors shrink-0"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -36,18 +36,18 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Authentic Red MovieRoom Logo */}
           <a
             href="#"
-            className="flex items-center gap-2.5 text-slate-900 hover:opacity-90 transition-opacity group"
+            className="flex items-center gap-2 text-slate-900 hover:opacity-90 transition-opacity group min-w-0"
           >
-            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-xs ring-1 ring-red-500/20 bg-slate-950 shrink-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-xs ring-1 ring-red-500/20 bg-slate-950 shrink-0">
               <img
                 src={APP_CONFIG.appIconSrc}
                 alt={APP_CONFIG.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
-              <span>{APP_CONFIG.name}</span>
-              <span className="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-1.5 py-0.5 rounded uppercase tracking-wider font-mono">
+            <span className="text-base sm:text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1 truncate">
+              <span className="truncate">{APP_CONFIG.name}</span>
+              <span className="text-[9px] sm:text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-1 py-0.5 rounded uppercase tracking-wider font-mono shrink-0">
                 APK
               </span>
             </span>
@@ -98,9 +98,9 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onDownloadClick}
-            className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-extrabold text-white bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 active:scale-[0.98] rounded-xl shadow-md shadow-red-600/20 hover:shadow-red-600/30 transition-all"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-extrabold text-white bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 active:scale-[0.98] rounded-xl shadow-md shadow-red-600/20 hover:shadow-red-600/30 transition-all shrink-0 whitespace-nowrap"
           >
-            <span className="w-4 h-4 rounded border-1.5 border-white flex items-center justify-center">
+            <span className="w-4 h-4 rounded border-1.5 border-white flex items-center justify-center shrink-0">
               <Download className="w-2.5 h-2.5 stroke-[3]" />
             </span>
             <span>{t.nav.downloadApk}</span>

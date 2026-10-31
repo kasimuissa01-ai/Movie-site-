@@ -51,6 +51,8 @@ export interface TranslationDictionary {
   installGuide: {
     title: string;
     subtitle: string;
+    videoPrompt: string;
+    watchBtn: string;
     step1: {
       stepLabel: string;
       title: string;
@@ -139,9 +141,9 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       switchLang: "English",
     },
     hero: {
-      title: "Pakua MovieRoom APK — Filamu, Tamthilia & Live TV za Kiswahili",
-      subtitle: "Filamu za Kiswahili, Tamthilia & Michezo ya Moja kwa Moja",
-      description: "Tazama zaidi ya filamu 100,000+, tamthilia za mfululizo, katuni, na michezo bila kulipa senti yoyote. MovieRoom inakuletea filamu zote zilizotafsiriwa kwa Kiswahili safi na ma-DJ maarufu (DJ Afro, DJ Murphy, DJ Black n.k.), Nollywood, tamthilia za K-Drama, na sinema za Hollywood ndani ya app moja yenye nguvu. Furahia picha zenye ubora wa HD na 4K, seva zenye kasi ya umeme, upakuaji wa kutazama bila intaneti, na bila malipo ya usajili. Iwe uko kwenye simu, tablet, au Smart TV, MovieRoom inakupa uzoefu wa sinema popote ulipo.",
+      title: "Pakua MovieRoom APK — Filamu, Tamthilia & Live TV (Kiswahili & International)",
+      subtitle: "Mchanganyiko wa Filamu za Kiswahili, Hollywood, K-Drama & Michezo",
+      description: "Tazama zaidi ya filamu 100,000+, tamthilia za mfululizo, katuni, na michezo bila kulipa senti yoyote. MovieRoom inakuletea mchanganyiko mzuri wa filamu zilizotafsiriwa kwa Kiswahili na ma-DJ maarufu pamoja na filamu za kimataifa (Hollywood, Bollywood, K-Drama, Nollywood n.k.) zenye ubora wa HD na 4K. Furahia seva zenye kasi ya umeme, upakuaji wa kutazama bila intaneti, na bila malipo ya usajili. Iwe kwenye simu, tablet, au Smart TV, MovieRoom inakupa uzoefu wa sinema popote ulipo.",
       downloadBtn: "Pakua MovieRoom APK",
       freeSecure: "100% Bure & Salama",
       downloadsWorldwide: "Wapakuzi 500,000+ Duniani",
@@ -150,7 +152,7 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
     },
     appInfoSection: {
       heading: "Pakua Toleo Jipya Zaidi la MovieRoom",
-      description: "MovieRoom ni jukwaa la bure la kutazama na kupakua filamu na tamthilia kutoka nchi na tanzu mbalimbali, ikiwemo filamu zilizotafsiriwa kwa Kiswahili, filamu za Hollywood, Bollywood, K-dramas, Bongo Movies, Nollywood, na michezo ya moja kwa moja. Ukiwa na MovieRoom, unaweza kutazama maudhui yote unayoyapenda mahali pamoja bila kulipia chochote. Pakua app ya MovieRoom leo upate burudani isiyo na mwisho.",
+      description: "MovieRoom ni jukwaa la bure la kutazama na kupakua filamu na tamthilia kutoka nchi mbalimbali. Ina mchanganyiko wa filamu zilizotafsiriwa kwa Kiswahili, pamoja na filamu za Hollywood, Bollywood, K-dramas, Nollywood, na michezo ya moja kwa moja. Ukiwa na MovieRoom, unaweza kutazama maudhui yote unayoyapenda mahali pamoja bila kulipia chochote. Pakua app ya MovieRoom leo upate burudani isiyo na mwisho.",
       ratingText: "4.8 Nyota",
       sizeText: "24.8 MB",
       downloadsText: "500K+ Wapakuzi",
@@ -171,12 +173,14 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
     },
     whatIs: {
       title: "MovieRoom ni Nini?",
-      p1: "MovieRoom ni huduma ya bure inayokuruhusu kutazama filamu na tamthilia mtandaoni moja kwa moja kwenye simu yako. Pia unaweza kupakua filamu na tamthilia uzipendazo ili uzitazame wakati wowote hata ukiwa nje ya mtandao (offline) bila kutumia bando la intaneti. MovieRoom inamiliki maktaba kubwa yenye maudhui ya aina mbalimbali, ikiwemo sinema za hivi karibuni, tamthilia maarufu, michezo, na filamu zilizotafsiriwa kwa Kiswahili na wataalamu maarufu.",
-      p2: "Muundo wa MovieRoom ni safi, wa kisasa na mwepesi sana kutumia. Ina vichujio vya hali ya juu vinavyokuruhusu kutafuta filamu kwa jina, mwaka, aina ya filamu au nchi. Pia mfumo wake wa kisasa unajifunza mapendekezo yako ya filamu ili kukupa mambo unayopenda zaidi. Kama ungependa kutazama baadaye safarini, mfumo wa upakuaji unahifadhi filamu moja kwa moja kwenye simu yako kwa usalama wa hali ya juu.",
+      p1: "MovieRoom ni huduma ya bure inayokuruhusu kutazama filamu na tamthilia mtandaoni moja kwa moja kwenye simu yako. Pia unaweza kupakua filamu na tamthilia uzipendazo ili uzitazame wakati wowote hata ukiwa nje ya mtandao (offline). MovieRoom inamiliki maktaba kubwa yenye mchanganyiko wa filamu zilizotafsiriwa kwa Kiswahili na filamu za kimataifa (Hollywood, K-Drama, Bollywood n.k.).",
+      p2: "Muundo wa MovieRoom ni safi, wa kisasa na mwepesi sana kutumia. Ina vichujio vya hali ya juu vinavyokuruhusu kutafuta filamu kwa jina, mwaka, aina ya filamu au nchi. Pia mfumo wake unajifunza mapendekezo yako ya filamu ili kukupa mambo unayopenda zaidi. Kama ungependa kutazama baadaye safarini, mfumo wa upakuaji unahifadhi filamu moja kwa moja kwenye simu yako kwa usalama wa hali ya juu.",
     },
     installGuide: {
       title: "Jinsi ya Kupakua na Kusakinisha MovieRoom APK",
       subtitle: "Fuata hatua 3 rahisi hapa chini kusakinisha MovieRoom kwenye simu yako ya Android kwa sekunde chache.",
+      videoPrompt: "Tazama Video ya Hatua kwa Hatua ya Kusakinisha APK",
+      watchBtn: "Tazama Video",
       step1: {
         stepLabel: "Hatua ya 1",
         title: "Pakua MovieRoom APK",
@@ -201,10 +205,10 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
     },
     whyChoose: {
       title: "Kwa Nini Uchague MovieRoom?",
-      desc: "Moja ya faida kubwa za MovieRoom ni wingi na upekee wa maktaba yake ya maudhui. Ikiwa na zaidi ya filamu 100,000+ katika aina zaidi ya 25, daima kuna kitu kipya na cha kusisimua cha kutazama kila siku. MovieRoom imejaa vipengele vya kisasa vikiwemo uchezaji wa ubora wa HD/4K, upakuaji wa haraka, sauti za Kiswahili, utafutaji wa haraka, na uwezo wa kutuma picha kwenye Smart TV.",
+      desc: "Moja ya faida kubwa za MovieRoom ni wingi na upekee wa maktaba yake ya maudhui. Ikiwa na zaidi ya filamu 100,000+ katika aina zaidi ya 25, daima kuna kitu kipya na cha kusisimua cha kutazama kila siku. MovieRoom inakuletea mchanganyiko mzuri wa filamu za Kiswahili na za Kimataifa zenye ubora wa HD/4K.",
       bullets: [
         "Bure kabisa kutumia bila ada wala usajili",
-        "Mkusanyiko mkubwa wa filamu zilizotafsiriwa Kiswahili",
+        "Mchanganyiko wa filamu za Kiswahili na za Kimataifa",
         "Inasasishwa kila siku na filamu mpya",
         "Utafutaji wa haraka na makundi yaliyopangika",
         "Pakua bure utazame bila intaneti (Offline)",
@@ -324,6 +328,8 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
     installGuide: {
       title: "How to Download & Install MovieRoom APK",
       subtitle: "Follow these 3 quick and easy steps to install MovieRoom APK on your Android device.",
+      videoPrompt: "Watch Step-by-Step APK Installation Video Guide",
+      watchBtn: "Watch Video",
       step1: {
         stepLabel: "Step 1",
         title: "Download MovieRoom APK",

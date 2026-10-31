@@ -26,6 +26,7 @@ import { ShareModal } from './components/ShareModal';
 import { QrModal } from './components/QrModal';
 import { LightboxModal } from './components/LightboxModal';
 import { LegalModal } from './components/LegalModals';
+import { VideoModal } from './components/VideoModal';
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -54,6 +55,7 @@ export default function App() {
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [legalModalType, setLegalModalType] = useState<'privacy' | 'terms' | null>(null);
 
   // Download Progress State
@@ -164,6 +166,7 @@ export default function App() {
           lang={lang}
           t={t}
           onDownloadClick={handleDownload}
+          onOpenVideo={() => setVideoModalOpen(true)}
         />
 
         {/* 6. FeaturesSection: "Why Choose MovieRoom?" with Smartphone Mockup in Circular Halo & Bullets (Screenshot 8) */}
@@ -263,6 +266,15 @@ export default function App() {
       <LegalModal
         type={legalModalType}
         onClose={() => setLegalModalType(null)}
+      />
+
+      {/* 18. Video Tutorial Modal */}
+      <VideoModal
+        isOpen={videoModalOpen}
+        lang={lang}
+        t={t}
+        onClose={() => setVideoModalOpen(false)}
+        onDownloadClick={handleDownload}
       />
 
     </div>

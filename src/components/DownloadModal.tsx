@@ -8,9 +8,7 @@ import {
   ArrowRight,
   ShieldCheck,
   QrCode,
-  Loader2,
   Lock,
-  Smartphone,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { APP_CONFIG } from '../appConfig';
@@ -30,7 +28,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   isOpen,
   lang,
   t,
-  progress,
+  progress: _progress,
   onClose,
   onRetryDownload,
 }) => {
@@ -38,8 +36,17 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [showQr, setShowQr] = useState(false);
 
+  // History API integration so phone back button closes download modal and returns to homepage
   useEffect(() => {
     if (!isOpen) return;
+
+    window.history.pushState({ modal: 'download' }, '');
+
+    const handlePopState = () => {
+      onClose();
+    };
+
+    window.addEventListener('popstate', handlePopState);
 
     QRCode.toDataURL(APP_CONFIG.apkDownloadUrl, {
       width: 180,
@@ -51,7 +58,11 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     })
       .then((url) => setQrDataUrl(url))
       .catch((err) => console.error('Error generating QR:', err));
-  }, [isOpen]);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -61,16 +72,10 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  const formatMb = (bytes: number) => {
-    return (bytes / (1024 * 1024)).toFixed(1);
-  };
-
-  const isCompleted = progress.status === 'completed' || progress.percent >= 100;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs animate-in fade-in duration-150">
       <div
-        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-150"
+        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="download-modal-title"
@@ -82,7 +87,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
+          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors z-10"
           aria-label={lang === 'sw' ? 'Funga dirisha' : 'Close window'}
         >
           <X className="w-5 h-5" />
@@ -92,24 +97,12 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
           
           {/* Header */}
           <div className="flex items-center gap-3.5 mb-5">
-            <div
-              className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-colors shadow-xs ${
-                isCompleted
-                  ? 'bg-red-600 text-white'
-                  : 'bg-red-50 text-red-600'
-              }`}
-            >
-              {isCompleted ? (
-                <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
-              ) : (
-                <Loader2 className="w-7 h-7 animate-spin stroke-[2.2]" />
-              )}
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-red-600 text-white shadow-xs">
+              <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
             </div>
             <div>
               <h3 id="download-modal-title" className="text-lg sm:text-xl font-extrabold text-slate-900">
-                {isCompleted
-                  ? (lang === 'sw' ? 'Upakuaji Umekamilika!' : 'Download Complete!')
-                  : (lang === 'sw' ? 'Inapakua MovieRoom APK...' : 'Downloading MovieRoom APK...')}
+                {lang === 'sw' ? 'Upakuaji Umeanza / Umekamilika!' : 'Download Started / Complete!'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 font-mono mt-0.5">
                 {APP_CONFIG.apkFileName} ({APP_CONFIG.apkSize})
@@ -117,7 +110,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
             </div>
           </div>
 
-          {/* VERIFIED TRUST BADGE - Red & Dark Palette */}
+          {/* VERIFIED TRUST BADGE */}
           <div className="mb-5 bg-red-50/80 border border-red-200/90 rounded-2xl p-3.5 sm:p-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm">
               <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
@@ -131,135 +124,34 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               </p>
               <p className="text-xs text-red-800 leading-snug mt-0.5">
                 {lang === 'sw'
-                  ? 'Kifurushi rasmi kimekaguliwa, hakina virusi wala programu za ujasusi.'
-                  : 'Official package scanned, free from viruses, spyware, and adware.'}
+                  ? 'Faili limehifadhiwa kwenye simu yako kwa usalama.'
+                  : 'File successfully downloaded to your device.'}
               </p>
             </div>
           </div>
 
-          {/* REAL-TIME PERCENTAGE PROGRESS CARD */}
-          <div className="bg-[#0a0f1d] text-white rounded-2xl p-5 mb-5 shadow-inner border border-slate-800">
-            <div className="flex items-end justify-between mb-2.5">
-              <span className="text-xs sm:text-sm font-medium text-slate-300">
-                {isCompleted
-                  ? (lang === 'sw' ? 'Faili limehifadhiwa kwenye simu yako' : 'File saved to your device')
-                  : (lang === 'sw' ? 'Kasi ya upakuaji inasoma...' : 'Download in progress...')}
+          {/* AMAZING VIDEO CARD WITH SUPABASE MP4 (No Autoplay) */}
+          <div className="mb-6 bg-[#0a0f1d] text-white rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-800">
+            <div className="mb-3">
+              <span className="inline-block text-[10px] font-mono font-bold uppercase tracking-wider text-red-400 bg-red-950/80 border border-red-500/30 px-2 py-0.5 rounded mb-1">
+                {lang === 'sw' ? 'MWONGOZO WA VIDEO' : 'VIDEO GUIDE'}
               </span>
-              <span className="text-2xl sm:text-3xl font-extrabold text-red-400 font-mono tabular-nums leading-none">
-                {progress.percent}%
-              </span>
+              <h4 className="text-sm sm:text-base font-extrabold text-white">
+                {lang === 'sw' ? 'Hii ndiyo jinsi ya kusakinisha kwenye simu yako:' : 'This is how to install on your phone:'}
+              </h4>
             </div>
 
-            {/* Progress Bar Track */}
-            <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/60">
-              <div
-                className={`h-full rounded-full transition-all duration-200 ease-out ${
-                  isCompleted
-                    ? 'bg-red-500'
-                    : 'bg-gradient-to-r from-red-600 via-rose-500 to-red-500 animate-pulse'
-                }`}
-                style={{ width: `${Math.max(4, Math.min(100, progress.percent))}%` }}
+            {/* Video Player */}
+            <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-slate-950 border border-slate-700/80 shadow-lg">
+              <video
+                src="https://vqgnxqabvmmpfoiceass.supabase.co/storage/v1/object/public/simulizi-audio/lv_0_20261023230110.mp4"
+                controls
+                playsInline
+                className="w-full h-full object-cover"
+                poster="/images/screenshot_1.jpg"
               />
             </div>
-
-            {/* Size breakdown */}
-            <div className="flex items-center justify-between text-xs text-slate-400 mt-2 font-mono tabular-nums">
-              <span>
-                {formatMb(progress.loadedBytes || (progress.percent / 100) * progress.totalBytes)} MB
-              </span>
-              <span>
-                {formatMb(progress.totalBytes)} MB ({APP_CONFIG.apkSize})
-              </span>
-            </div>
           </div>
-
-          {/* INSTANT INSTALL PROMPT WHEN COMPLETED */}
-          {isCompleted ? (
-            <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 mb-5 animate-in zoom-in-95 duration-200">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
-                  <Smartphone className="w-5 h-5" />
-                </div>
-                <div className="text-xs sm:text-sm text-amber-950 w-full">
-                  <h4 className="font-bold text-amber-950 text-sm mb-1">
-                    {lang === 'sw' ? 'Gusa Hapa Kufungua Kisakinishi Moja kwa Moja:' : 'Direct 1-Tap Installation on Android:'}
-                  </h4>
-                  <p className="leading-relaxed text-slate-700">
-                    {lang === 'sw'
-                      ? 'Kwa sababu za kiusalama za Android, mfumo unahitaji uguso mmoja (1-tap) ili kuanza kufunga. Chagua njia iliyo rahisi kwako:'
-                      : 'For Android OS security, tap once to launch the Package Installer. Choose either method below:'}
-                  </p>
-                  
-                  {/* Option A: Chrome bottom popup */}
-                  <div className="mt-3 bg-slate-900 text-white rounded-xl p-3 shadow-xs">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 truncate">
-                        <span className="text-red-400 text-base">✓</span>
-                        <span className="text-xs text-slate-200 font-mono truncate">
-                          {APP_CONFIG.apkFileName}
-                        </span>
-                      </div>
-                      <span className="px-3 py-1 bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-extrabold rounded-lg uppercase tracking-wider animate-pulse shrink-0">
-                        OPEN / FUNGUA
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-400 mt-1.5">
-                      👆 <strong>{lang === 'sw' ? 'Njia ya 1:' : 'Method 1:'}</strong> {lang === 'sw' ? 'Bofya kitufe cha OPEN kinachotokea chini kabisa mwa skrini ya Chrome.' : 'Tap the OPEN button appearing at the bottom of Chrome.'}
-                    </p>
-                  </div>
-
-                  {/* Option B: Android Notification Bar */}
-                  <div className="mt-2.5 bg-slate-800 text-white rounded-xl p-3 shadow-xs">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base">🔔</span>
-                        <span className="text-xs font-medium text-slate-200">
-                          {lang === 'sw' ? 'Upakuaji Umekamilika (Download complete)' : 'Download Complete Notification'}
-                        </span>
-                      </div>
-                      <span className="text-[10px] text-red-300 font-bold bg-red-950/80 px-2 py-0.5 rounded border border-red-500/30">
-                        {lang === 'sw' ? 'Tayari' : 'Ready'}
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-400 mt-1.5">
-                      👇 <strong>{lang === 'sw' ? 'Njia ya 2:' : 'Method 2:'}</strong> {lang === 'sw' ? `Vuta notification bar ya simu yako chini, kisha bofya faili la ${APP_CONFIG.apkFileName}.` : `Swipe down your notification shade and tap ${APP_CONFIG.apkFileName} to launch installer.`}
-                    </p>
-                  </div>
-                  
-                  <p className="text-xs text-amber-950 font-medium mt-3">
-                    💡 {lang === 'sw' ? 'Android itafungua Package Installer na kukuuliza "Do you want to install this app?" — bofya Install.' : 'Android will open Package Installer asking "Do you want to install this app?" — simply tap Install.'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* Quick 3-Step Next Action */
-            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 mb-5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
-                {lang === 'sw' ? 'Hatua za Kufuata Kwenye Simu Yako:' : 'Quick Steps on Your Phone:'}
-              </h4>
-              <ol className="space-y-2.5 text-xs sm:text-sm text-slate-700">
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-red-100 text-red-800 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                    1
-                  </span>
-                  <span>{lang === 'sw' ? 'Subiri upakuaji ufike 100%, kisha bofya "OPEN" chini ya skrini ya simu yako.' : 'Wait for 100%, then tap "OPEN" at the bottom of your screen.'}</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-red-100 text-red-800 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                    2
-                  </span>
-                  <span>{lang === 'sw' ? 'Simu ikikuuliza, fungua Settings na uweke "Allow from this source".' : 'If prompted, allow "Install unknown apps" from Settings.'}</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-red-100 text-red-800 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                    3
-                  </span>
-                  <span>{lang === 'sw' ? `Bofya Install kisha fungua ${APP_CONFIG.name} uanze kutazama filamu!` : `Tap Install and launch ${APP_CONFIG.name} to start streaming!`}</span>
-                </li>
-              </ol>
-            </div>
-          )}
 
           {/* Action buttons */}
           <div className="space-y-2.5">
@@ -269,7 +161,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base transition-all shadow-md shadow-red-600/20"
             >
               <Download className="w-4 h-4 stroke-[2.5]" />
-              <span>{isCompleted ? (lang === 'sw' ? 'Pakua Tena (Download Again)' : 'Download Again') : (lang === 'sw' ? 'Anzisha Upya Upakuaji' : 'Restart Download')}</span>
+              <span>{lang === 'sw' ? 'Pakua Tena (Download Again)' : 'Download Again'}</span>
             </button>
 
             <div className="grid grid-cols-2 gap-2">
