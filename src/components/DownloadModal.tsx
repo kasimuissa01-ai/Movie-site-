@@ -205,9 +205,6 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                 alt="QR Code for MovieRoom direct download"
                 className="w-36 h-36 mx-auto rounded-lg border border-slate-200 shadow-2xs"
               />
-              <p className="text-xs text-slate-500 mt-2 font-mono break-all">
-                {APP_CONFIG.apkDownloadUrl}
-              </p>
             </div>
           )}
 
@@ -215,7 +212,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
           <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-500">
             <span className="flex items-center gap-1.5 text-slate-700 font-medium">
               <Lock className="w-3.5 h-3.5 text-red-600" />
-              <span>Cloudflare R2 High-Speed CDN</span>
+              <span>{lang === 'sw' ? 'Seva Rasmi Salama ya Haraka' : 'Official Secure Fast Server'}</span>
             </span>
             <a
               href="#installation"

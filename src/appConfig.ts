@@ -96,8 +96,8 @@ export const APP_CONFIG: AppConfiguration = {
   architecture: "Universal (arm64-v8a, armeabi-v7a)",
 
   // 3. LIVE CLOUDFLARE R2 APK DOWNLOAD URL
-  apkDownloadUrl: "https://pub-5399f62037f94260b0f54c88a9297134.r2.dev/Movieroom.apk",
-  apkFileName: "Movieroom.apk",
+  apkDownloadUrl: "https://pub-5399f62037f94260b0f54c88a9297134.r2.dev/app-release-1.0.55/app-release.apk",
+  apkFileName: "Movieroom-v1.0.55.apk",
 
   // 4. VISUAL ASSETS
   appIconSrc: "/images/movieroom_icon.jpg",
