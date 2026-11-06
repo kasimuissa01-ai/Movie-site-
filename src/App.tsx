@@ -28,6 +28,8 @@ import { LightboxModal } from './components/LightboxModal';
 import { LegalModal } from './components/LegalModals';
 import { VideoModal } from './components/VideoModal';
 import { Footer } from './components/Footer';
+import { InAppBrowserBanner } from './components/InAppBrowserBanner';
+import { detectInAppBrowser } from './utils/inAppBrowser';
 
 export default function App() {
   // Bilingual Language State (sw / en)
@@ -50,6 +52,9 @@ export default function App() {
   };
 
   const t = TRANSLATIONS[lang];
+
+  // Social media in-app browser state
+  const [inAppInfo] = useState(() => detectInAppBrowser());
 
   // Modals
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
@@ -129,6 +134,9 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans selection:bg-red-100 selection:text-red-950 pb-14 sm:pb-0">
       
+      {/* 0. In-App Browser Guidance Banner (Instagram, TikTok, Facebook bio links) */}
+      <InAppBrowserBanner inAppInfo={inAppInfo} lang={lang} t={t} />
+
       {/* 1. Header with Language Toggle & Gradient Download CTA */}
       <Header
         lang={lang}

@@ -9,10 +9,12 @@ import {
   ShieldCheck,
   QrCode,
   Lock,
+  ExternalLink,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { APP_CONFIG } from '../appConfig';
 import { DownloadProgress } from '../utils/apkDownloader';
+import { detectInAppBrowser, openInChrome } from '../utils/inAppBrowser';
 import { Language, TranslationDictionary } from '../translations';
 
 interface DownloadModalProps {
@@ -35,6 +37,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   const [copiedLink, setCopiedLink] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [showQr, setShowQr] = useState(false);
+  const [inAppInfo] = useState(() => detectInAppBrowser());
 
   // History API integration so phone back button closes download modal and returns to homepage
   useEffect(() => {
@@ -129,6 +132,33 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               </p>
             </div>
           </div>
+
+          {/* IN-APP BROWSER DETECTED NOTICE */}
+          {inAppInfo.isInApp && (
+            <div className="mb-5 bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 text-amber-950">
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+                  <ExternalLink className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-sm font-bold text-amber-950 mb-1">
+                    {t.inAppBrowser.modalWarningTitle}
+                  </h4>
+                  <p className="text-xs text-amber-900 leading-relaxed mb-3">
+                    {t.inAppBrowser.modalWarningDesc}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => openInChrome(APP_CONFIG.apkDownloadUrl)}
+                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 active:scale-[0.98] text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+                  >
+                    <ExternalLink className="w-4 h-4 stroke-[2.5]" />
+                    <span>{t.inAppBrowser.openInChromeBtn}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* AMAZING VIDEO CARD WITH SUPABASE MP4 (No Autoplay) */}
           <div className="mb-6 bg-[#0a0f1d] text-white rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-800">

@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan for adding an embedded How to Install video player inside the Installation Guide section between Step 1 and Step 2.",
-  "updatedAt":  "2026-10-31T19:10:43.608853839Z",
-  "requestFeedback":  true,
-  "userFacing":  true
+  "summary": "Implementation plan to detect social media in-app browsers (Instagram, TikTok, Facebook) and provide seamless 1-tap Chrome intent launch and 3-dots guidance for APK installation.",
+  "updatedAt": "2026-11-06T20:59:21.937690685Z",
+  "requestFeedback": true,
+  "userFacing": true
 }

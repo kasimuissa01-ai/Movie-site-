@@ -125,6 +125,16 @@ export interface TranslationDictionary {
     freeBadge: string;
     downloadBtn: string;
   };
+  inAppBrowser: {
+    bannerTitle: string;
+    bannerDesc: string;
+    openInChromeBtn: string;
+    threeDotsGuide: string;
+    copyLinkBtn: string;
+    copied: string;
+    modalWarningTitle: string;
+    modalWarningDesc: string;
+  };
 }
 
 export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
@@ -276,6 +286,16 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       freeBadge: "Bure Kabisa",
       downloadBtn: "Pakua APK (24.8 MB)",
     },
+    inAppBrowser: {
+      bannerTitle: "Fungua Kwenye Chrome Kupakua APK",
+      bannerDesc: "Vivinjari vya mitandao ya kijamii (Instagram, TikTok n.k.) huzuia upakuaji wa faili za APK moja kwa moja.",
+      openInChromeBtn: "Fungua Kwenye Chrome",
+      threeDotsGuide: "Gusa alama ya nukta 3 (⋮) juu kulia, kisha chagua 'Open in Chrome'",
+      copyLinkBtn: "Nakili Link",
+      copied: "Imenakiliwa!",
+      modalWarningTitle: "Uko Kwenye Kivinjari cha Mitandao ya Kijamii",
+      modalWarningDesc: "Kivinjari hiki hakiwezi kufungua kisakinishi cha Android. Tafadhali fungua tovuti hii kwenye Google Chrome ili usakinishe APK bila tatizo.",
+    },
   },
   en: {
     nav: {
@@ -424,6 +444,16 @@ export const TRANSLATIONS: Record<Language, TranslationDictionary> = {
       version: "MovieRoom APK v1.0.0",
       freeBadge: "100% Free",
       downloadBtn: "Download APK (24.8 MB)",
+    },
+    inAppBrowser: {
+      bannerTitle: "Open in Chrome to Install APK",
+      bannerDesc: "Social media in-app browsers (Instagram, TikTok, etc.) block direct APK downloads and package installation.",
+      openInChromeBtn: "Open in Chrome",
+      threeDotsGuide: "Tap the 3 dots (⋮) at top right, then select 'Open in Chrome'",
+      copyLinkBtn: "Copy Link",
+      copied: "Copied!",
+      modalWarningTitle: "You're in a Social Media In-App Browser",
+      modalWarningDesc: "In-app browsers cannot launch the Android package installer. Please open this page in Google Chrome to download and install cleanly.",
     },
   },
 };
